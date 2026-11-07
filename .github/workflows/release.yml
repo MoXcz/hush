@@ -1,0 +1,162 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Builds the Android APKs and the Linux app image for a version tag (v0.2.0) and publishes them as a
+# GitHub release. Signing runs in the protected `release` environment (docs/releasing.md): its secrets
+# are only handed out after the repository owner approves the run.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # The key on the user's phone; an APK signed with any other key can't update it.
+  RELEASE_CERT_SHA256: a8536d80ac8af904958a17fbb1945a6da33a101de43e012aa1d399df7f75e2a0
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: version
+        name: Check the tag matches app-versionName
+        run: |
+          version="$(sed -n 's/^app-versionName = "\(.*\)"$/\1/p' gradle/libs.versions.toml)"
+          if [[ "v$version" != "$GITHUB_REF_NAME" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match app-versionName $version"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  check:
+    needs: version
+    uses: ./.github/workflows/ci.yml
+
+  android:
+    needs: [version, check]
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+      - name: Install the Android SDK packages
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            'platforms;android-37.0' 'build-tools;36.0.0' 'ndk;28.2.13676358' > /dev/null
+      - name: Write the signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.HUSH_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.HUSH_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.HUSH_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.HUSH_KEY_PASSWORD }}
+        run: |
+          if [[ -z "$KEYSTORE_BASE64" ]]; then
+            echo "::error::The release environment's HUSH_KEYSTORE_BASE64 secret is missing; see docs/releasing.md"
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/release.jks"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+      - run: ./gradlew :androidApp:assembleRelease
+      - name: Remove the signing key
+        if: always()
+        run: rm -f keystore.properties "$RUNNER_TEMP/release.jks"
+      - name: Check the signing certificate and name the APKs
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          apksigner="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          mkdir dist
+          for apk in androidApp/build/outputs/apk/release/androidApp-*-release.apk; do
+            if ! "$apksigner" verify --print-certs "$apk" | grep -q "SHA-256 digest: $RELEASE_CERT_SHA256"; then
+              echo "::error::$apk isn't signed with the release key (check the HUSH_* secrets)"
+              exit 1
+            fi
+            abi="$(basename "$apk" | sed 's/^androidApp-\(.*\)-release\.apk$/\1/')"
+            cp "$apk" "dist/hush-$VERSION-$abi.apk"
+          done
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-android
+          path: dist/
+      # R8's mapping, to read stack traces from this release.
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mapping
+          path: androidApp/build/outputs/mapping/release/
+
+  linux:
+    needs: [version, check]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+      - run: ./gradlew :desktopApp:createReleaseDistributable
+      - name: Pack the app image
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          mkdir dist
+          image=desktopApp/build/compose/binaries/main-release/app/Hush
+          cp desktopApp/icon/hush.svg desktopApp/src/main/resources/hush.png "$image/"
+          tar -C "$(dirname "$image")" -czf "dist/hush-$VERSION-linux-x86_64.tar.gz" Hush
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-linux
+          path: dist/
+
+  release:
+    needs: [version, android, linux]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: release-*
+          path: dist
+          merge-multiple: true
+      - name: Checksums
+        run: cd dist && sha256sum -- * > SHA256SUMS
+      # Lets anyone check a download came from this workflow: gh attestation verify <file> -R MoXcz/hush
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: 'dist/*'
+      - uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
+        with:
+          files: dist/*
+          fail_on_unmatched_files: true
+          generate_release_notes: true

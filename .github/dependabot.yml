@@ -1,0 +1,10 @@
+# Keeps the pinned action SHAs in .github/workflows current. Only versions at least two weeks old,
+# as docs/engineering.md asks for dependencies.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 14

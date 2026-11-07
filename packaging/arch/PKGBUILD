@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Packages the app image that `./gradlew :desktopApp:createReleaseDistributable` built; makepkg
+# needs no network or Gradle. Build it with scripts/install-desktop.sh.
+
+_repo="$(realpath "$startdir/../..")"
+_image="$_repo/desktopApp/build/compose/binaries/main-release/app/Hush"
+
+pkgname=hush
+pkgver="$(sed -n 's/^app-versionName = "\(.*\)"$/\1/p' "$_repo/gradle/libs.versions.toml")"
+[[ -n $pkgver ]] || { echo "No app-versionName in $_repo/gradle/libs.versions.toml" >&2; exit 1; }
+pkgrel=1
+pkgdesc='Minimal focus timer'
+arch=('x86_64')
+license=('GPL-3.0-or-later')
+# The bundled Java runtime and Skiko link these system libraries.
+depends=(
+  'alsa-lib' 'fontconfig' 'freetype2' 'giflib' 'glibc' 'harfbuzz' 'lcms2' 'libgcc'
+  'libglvnd' 'libjpeg-turbo' 'libpng' 'libstdc++' 'libx11' 'libxext' 'libxi'
+  'libxrender' 'libxtst' 'zlib'
+)
+optdepends=(
+  'libnotify: phase-end notifications'
+  'avahi: pairing with the phone'
+  'hyprland: apps during focus'
+)
+# Stripping would break the bundled Java runtime.
+options=('!strip' '!debug')
+source=('hush.desktop' 'hush.sh')
+sha256sums=('213405acd4a95db1125772bfebe694f97c4ae066a3e6249e14d93be5880375e4'
+            '65f310829e362a8685c0905e2ead370c9323896e87043403814e79df76d556c9')
+
+package() {
+  if [[ ! -x "$_image/bin/Hush" ]]; then
+    echo "No app image at $_image; run ./gradlew :desktopApp:createReleaseDistributable" >&2
+    return 1
+  fi
+  install -d "$pkgdir/usr/lib/hush"
+  cp -a "$_image/." "$pkgdir/usr/lib/hush/"
+  install -Dm755 "$srcdir/hush.sh" "$pkgdir/usr/bin/hush"
+  install -Dm644 "$srcdir/hush.desktop" "$pkgdir/usr/share/applications/hush.desktop"
+  install -Dm644 "$_repo/desktopApp/icon/hush.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/hush.svg"
+  install -Dm644 "$_repo/desktopApp/src/main/resources/hush.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/hush.png"
+}

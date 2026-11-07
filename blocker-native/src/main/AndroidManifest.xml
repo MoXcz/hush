@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <!-- Not grantable from the app: `adb shell pm grant <app id> android.permission.WRITE_SECURE_SETTINGS`
+       lets the Settings switch turn the service on and off (banking apps refuse to run beside it). -->
+  <uses-permission
+    android:name="android.permission.WRITE_SECURE_SETTINGS"
+    tools:ignore="ProtectedPermissions" />
+
+  <!-- Android 11+ package visibility: launchable apps for the picker, plus the launcher and system
+       settings, which are never blocked. No QUERY_ALL_PACKAGES needed. -->
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.MAIN" />
+      <category android:name="android.intent.category.LAUNCHER" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.MAIN" />
+      <category android:name="android.intent.category.HOME" />
+    </intent>
+    <intent>
+      <action android:name="android.settings.SETTINGS" />
+    </intent>
+  </queries>
+
+  <application>
+    <service
+      android:name=".AppBlockerService"
+      android:exported="true"
+      android:label="@string/blocker_service_label"
+      android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+      <intent-filter>
+        <action android:name="android.accessibilityservice.AccessibilityService" />
+      </intent-filter>
+      <meta-data
+        android:name="android.accessibilityservice"
+        android:resource="@xml/blocker_service_config" />
+    </service>
+
+    <activity
+      android:name=".BlockActivity"
+      android:excludeFromRecents="true"
+      android:exported="false"
+      android:launchMode="singleInstance"
+      android:taskAffinity="app.hush.blocked"
+      android:theme="@style/Theme.Hush.Blocked" />
+  </application>
+</manifest>

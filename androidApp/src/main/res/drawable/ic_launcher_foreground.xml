@@ -1,0 +1,16 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- App mark: an open ring with a dot in its gap, inside the adaptive icon safe zone (66 dp circle). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+  android:width="108dp"
+  android:height="108dp"
+  android:viewportWidth="108"
+  android:viewportHeight="108">
+  <path
+    android:pathData="M63,38.41 A18,18 0 1,1 45,38.41"
+    android:strokeWidth="5"
+    android:strokeColor="#DEE0FF"
+    android:strokeLineCap="round" />
+  <path
+    android:fillColor="#DEE0FF"
+    android:pathData="M54,32.5 a3.5,3.5 0 1,1 0,7 a3.5,3.5 0 1,1 0,-7z" />
+</vector>

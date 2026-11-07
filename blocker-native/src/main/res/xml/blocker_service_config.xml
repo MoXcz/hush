@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Only window changes, and no window content: the package name of the app in front is all we read.
+     Not an accessibility tool, and must never claim to be one (Play and Advanced Protection policy). -->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:accessibilityEventTypes="typeWindowStateChanged"
+  android:accessibilityFeedbackType="feedbackGeneric"
+  android:canRetrieveWindowContent="false"
+  android:isAccessibilityTool="false"
+  android:description="@string/blocker_service_description"
+  android:notificationTimeout="0"
+  android:summary="@string/blocker_service_summary"
+  tools:ignore="UnusedAttribute" />

@@ -1,0 +1,243 @@
+<resources>
+  <string name="timer_title">Timer</string>
+  <string name="path_title">Path</string>
+  <string name="settings_title">Settings</string>
+
+  <string name="settings_blocking">Blocking</string>
+  <string name="settings_blocking_service">App blocking</string>
+  <string name="settings_blocking_on">On. Some banking apps won't open while it is</string>
+  <string name="settings_blocking_off">Off</string>
+
+  <string name="onboarding_title">App blocking</string>
+  <string name="onboarding_explain">Hush blocks apps itself, with an accessibility service. It only looks at which app is in front, and only acts while a session runs and the app is on one of your lists. Nothing leaves your phone.</string>
+  <string name="onboarding_how_to">In Accessibility settings, open Downloaded apps (or Installed apps), choose Hush and turn it on. Then come back here. If the switch is greyed out, open App info for Hush, tap the three-dot menu and choose Allow restricted settings first.</string>
+  <string name="onboarding_open_settings">Open Accessibility settings</string>
+  <string name="onboarding_pick_apps">Blocking is on. Choose the apps each list blocks: Deep work during timer work phases, Detox during path levels.</string>
+  <string name="onboarding_done">Done</string>
+  <string name="onboarding_problem_could_not_open">Couldn't open the settings. Find Accessibility in your phone's Settings app.</string>
+  <string name="onboarding_problem_dismiss">OK</string>
+
+  <string name="block_list_no_apps">No apps yet</string>
+  <plurals name="block_list_apps">
+    <item quantity="one">%1$d app</item>
+    <item quantity="other">%1$d apps</item>
+  </plurals>
+  <string name="block_list_for_timer">timer</string>
+  <string name="block_list_for_path">path</string>
+  <string name="block_list_back">Back</string>
+  <string name="block_list_search">Search apps</string>
+  <string name="block_list_no_match">No apps match.</string>
+
+  <string name="blocked_title">Not now</string>
+  <string name="blocked_focus">%1$s is blocked during your focus session, until %2$s.</string>
+  <string name="blocked_detox">%1$s is blocked during your detox level, until %2$s.</string>
+  <string name="blocked_this_app">This app</string>
+  <string name="blocked_back">Back</string>
+  <string name="blocked_panic">I need a break</string>
+  <string name="phase_work">Work</string>
+  <string name="phase_short_break">Short break</string>
+  <string name="phase_long_break">Long break</string>
+  <string name="timer_work_count">%1$d of %2$d</string>
+  <string name="timer_start">Start</string>
+  <string name="timer_pause">Pause</string>
+  <string name="timer_resume">Resume</string>
+  <string name="timer_skip">Skip</string>
+  <string name="timer_reset">Reset</string>
+  <string name="timer_dim_clock_hint">Dim clock</string>
+  <string name="timer_blocking_off">Blocking is off.</string>
+  <string name="timer_set_up">Set up</string>
+  <string name="timer_blocking_phone_only">App blocking runs on your phone.</string>
+  <string name="timer_notice_refused">Blocking couldn't start, so the timer didn't either. Try again when you're ready.</string>
+  <string name="timer_notice_cant_stop_early">This session can't be stopped early. The timer keeps running.</string>
+  <string name="timer_notice_unreachable">Couldn't reach the blocker. Nothing changed, try again when you're ready.</string>
+  <string name="timer_notice_unconfirmed">The timer started, but we couldn't confirm blocking did. Check the blocker if apps aren't blocked.</string>
+  <string name="timer_notice_dismiss">OK</string>
+  <string name="timer_up_next">Up next</string>
+
+  <string name="settings_timer">Timer</string>
+  <string name="settings_tags">Tags</string>
+  <string name="settings_add_tag">Add tag</string>
+  <string name="settings_work">Work</string>
+  <string name="settings_short_break">Short break</string>
+  <string name="settings_long_break">Long break</string>
+  <string name="settings_long_break_after">Long break after</string>
+  <string name="settings_minutes">%1$d min</string>
+  <string name="settings_work_phases">%1$d work</string>
+  <string name="settings_decrease">−</string>
+  <string name="settings_increase">+</string>
+  <string name="settings_dim_clock_lock_screen">Dim clock on lock screen</string>
+  <string name="settings_dim_clock_lock_screen_summary">Keep the dim clock visible when the phone locks</string>
+  <string name="level_hours">%1$d h</string>
+  <string name="level_hours_minutes">%1$d h %2$d min</string>
+  <string name="level_minutes">%1$d min</string>
+  <string name="path_level">Level %1$d</string>
+  <string name="path_level_passed">Passed</string>
+  <string name="path_level_current">Next</string>
+  <string name="path_start">Start %1$s</string>
+  <string name="path_complete">You've reached your goal. Repeat it whenever you like, or raise the goal in Settings.</string>
+  <string name="path_active">Detox: %1$s</string>
+  <string name="path_panic">I need a break</string>
+  <string name="path_no_profile">Choose apps for the Detox list to start the path.</string>
+  <string name="path_set_up">Set up</string>
+  <string name="path_phone_only">Detox attempts run on your phone, where apps can be blocked.</string>
+  <string name="path_stats">Stats</string>
+  <string name="path_outcome_passed">Level passed. The next one is open.</string>
+  <string name="path_outcome_passed_again">Level passed. Your path stays where it was.</string>
+  <string name="path_earlier_level">A shorter level. Your progress stays the same.</string>
+  <string name="path_outcome_ended">Session ended. This level is waiting for you when you're ready.</string>
+  <string name="path_outcome_stopped_in_blocker">Blocking was turned off, so this level ended early. Try again when you're ready.</string>
+  <string name="path_notice_refused">Blocking couldn't start. Try again when you're ready.</string>
+  <string name="path_notice_unreachable">Couldn't reach the blocker. Nothing changed, try again when you're ready.</string>
+  <string name="path_notice_unconfirmed">The level started, but we couldn't confirm blocking did. Check the blocker if apps aren't blocked.</string>
+  <string name="path_ok">OK</string>
+
+  <string name="panic_title">Take a minute</string>
+  <string name="panic_intro">Breathe slowly and look around you.</string>
+  <string name="panic_step_see">Name 5 things you can see.</string>
+  <string name="panic_step_touch">Notice 4 things you can touch.</string>
+  <string name="panic_step_hear">Listen for 3 things you can hear.</string>
+  <string name="panic_step_smell">Find 2 things you can smell.</string>
+  <string name="panic_step_taste">Notice 1 thing you can taste.</string>
+  <string name="panic_done">Well done. How do you feel now?</string>
+  <string name="panic_back">Back to focus</string>
+  <string name="panic_end">End session</string>
+  <string name="panic_cant_stop">This session can't be stopped early, so it keeps running until its end. The urge will pass.</string>
+  <string name="panic_notice_unreachable">Couldn't reach the blocker, so the session is still on. You can try again.</string>
+  <string name="panic_notice_needs_setup">The blocker needs setting up again before it can stop the session.</string>
+  <string name="panic_ok">OK</string>
+
+  <string name="history_title">History</string>
+  <string name="history_empty">Finished work phases and detox levels show up here.</string>
+  <string name="history_work">Work, %1$s</string>
+  <string name="history_detox">Detox level, %1$s</string>
+  <string name="history_completed">Completed</string>
+  <string name="history_passed">Passed</string>
+  <string name="history_stopped">Ended early</string>
+  <string name="history_abandoned">Blocking turned off</string>
+  <string name="history_tagged">%1$s, %2$s</string>
+
+  <string name="stats_title">Stats</string>
+  <string name="stats_back">Back</string>
+  <string name="stats_focus">Focus time</string>
+  <string name="stats_days">Last 7 days</string>
+  <string name="stats_weeks">Last 8 weeks</string>
+  <string name="stats_total">in total</string>
+  <string name="stats_untagged">No tag</string>
+  <string name="stats_week_label">%1$d %2$s</string>
+  <string name="stats_detox">Detox path</string>
+  <string name="stats_highest_level">Highest level passed</string>
+  <string name="stats_none_yet">None yet</string>
+  <string name="stats_attempts">Attempts</string>
+  <string name="stats_passed">Passed</string>
+  <string-array name="weekdays_short">
+    <item>Mon</item>
+    <item>Tue</item>
+    <item>Wed</item>
+    <item>Thu</item>
+    <item>Fri</item>
+    <item>Sat</item>
+    <item>Sun</item>
+  </string-array>
+  <string-array name="months_short">
+    <item>Jan</item>
+    <item>Feb</item>
+    <item>Mar</item>
+    <item>Apr</item>
+    <item>May</item>
+    <item>Jun</item>
+    <item>Jul</item>
+    <item>Aug</item>
+    <item>Sep</item>
+    <item>Oct</item>
+    <item>Nov</item>
+    <item>Dec</item>
+  </string-array>
+
+  <string name="tag_choose">Choose a tag</string>
+  <string name="tag_locked">You can switch tags once this work phase ends.</string>
+  <string name="tag_summary">%1$d / %2$d / %3$d min · long break after %4$d</string>
+  <string name="tag_deleted">%1$s (deleted)</string>
+  <string name="tag_new">New tag</string>
+  <string name="tag_edit">Edit tag</string>
+  <string name="tag_name">Name</string>
+  <string name="tag_save">Save</string>
+  <string name="tag_delete">Delete</string>
+
+  <string name="settings_detox">Detox path</string>
+  <string name="settings_detox_goal">Goal</string>
+  <string name="settings_sync">Sync</string>
+  <string name="settings_sync_pair_computer">Pair with your computer</string>
+  <string name="settings_sync_pair_phone">Pair with your phone</string>
+  <string name="sync_title">Sync</string>
+  <string name="sync_back">Back</string>
+  <string name="sync_line_never">Not synced yet</string>
+  <string name="sync_line_syncing">Syncing…</string>
+  <string name="sync_line_just_now">Synced just now</string>
+  <string name="sync_line_minutes">Synced %1$d min ago</string>
+  <plurals name="sync_line_hours">
+    <item quantity="one">Synced %1$d hour ago</item>
+    <item quantity="other">Synced %1$d hours ago</item>
+  </plurals>
+  <plurals name="sync_line_days">
+    <item quantity="one">Synced %1$d day ago</item>
+    <item quantity="other">Synced %1$d days ago</item>
+  </plurals>
+  <string name="sync_line_not_found">Not found on this network</string>
+  <string name="sync_line_rejected">Not recognised. Unpair, then pair again</string>
+  <string name="sync_line_too_new">Update Hush on both devices</string>
+  <string name="sync_line_failed">Didn't finish. It'll try again later</string>
+  <string name="sync_host_instructions">Type this code in Hush on your phone</string>
+  <string name="sync_code_expires">Valid for %1$d:%2$s</string>
+  <string name="sync_code_renewing">Getting a new code…</string>
+  <string name="sync_not_discoverable">Can't advertise: is avahi-daemon running?</string>
+  <string name="sync_same_network">Both devices need to be on the same network.</string>
+  <string name="sync_client_instructions">On your computer, open Hush, then Settings and Sync. Type the code it shows.</string>
+  <string name="sync_code_label">Code</string>
+  <string name="sync_code_hint">12 letters and numbers</string>
+  <string name="sync_pair">Pair</string>
+  <string name="sync_searching">Looking for your computer…</string>
+  <string name="sync_connecting">Checking the code…</string>
+  <string name="sync_host_paired_hint">Your phone syncs with this computer when both are on the same network.</string>
+  <string name="sync_client_paired_hint">Syncs when you open Hush, and every hour on Wi-Fi.</string>
+  <string name="sync_unpair">Unpair</string>
+  <string name="sync_dismiss">OK</string>
+  <string name="sync_problem_wrong_code">That code didn't match. Your computer shows a new one now.</string>
+  <string name="sync_problem_expired">That code ran out. Type the new one your computer shows.</string>
+  <string name="sync_problem_not_found">Couldn't find your computer. Is Hush open there, on the same network?</string>
+  <string name="sync_problem_too_new">This version of Hush can't pair with that one. Update both.</string>
+  <string name="sync_problem_needs_permission">Hush needs permission to find devices on your network.</string>
+  <string name="sync_problem_error">Pairing didn't finish. Try again.</string>
+  <string name="activity_label">Doing</string>
+  <string name="activity_choose">What are you doing?</string>
+  <string name="activity_choose_hint">For time away from this phone, like reading on an e-reader. Optional.</string>
+  <string name="activity_none">Nothing in particular</string>
+  <string name="activity_add">Add activity</string>
+  <string name="activity_add_action">Add</string>
+  <string name="activity_name">Activity name</string>
+  <string name="activity_edit">Edit activity</string>
+  <string name="activity_deleted">%1$s (deleted)</string>
+
+  <string name="settings_activities">Activities</string>
+  <string name="settings_add_activity">Add activity</string>
+  <string name="settings_app_usage">App usage during focus</string>
+  <string name="settings_app_usage_on">On. Stats shows the apps you used during work phases, and they sync to your paired computer.</string>
+  <string name="settings_app_usage_on_switch">On. While a work phase runs, Hush notes the focused window's app, site or program; Stats shows them, and they sync to your paired phone.</string>
+  <string name="settings_app_usage_off_switch">Off. Turn on to see which apps, sites and programs you used during work phases.</string>
+  <string name="settings_app_usage_off">Off. Turn on usage access for Hush to see which apps you used during work phases.</string>
+
+  <string name="stats_apps">Apps during focus</string>
+  <string name="stats_apps_empty">Nothing recorded in this range yet.</string>
+  <string name="stats_apps_off">Turn on app usage to see which apps you used during focus.</string>
+  <string name="stats_apps_turn_on">Turn on</string>
+  <string name="stats_apps_other">Other</string>
+  <string name="stats_under_a_minute">&lt;1 min</string>
+  <string name="stats_activity">Activity</string>
+  <string name="stats_by_activity">By activity</string>
+  <string name="stats_unsorted">Unsorted</string>
+  <string name="stats_rule_title">Sort %1$s into</string>
+  <string name="stats_rule_choose">Its time, past and future, counts for this activity under By activity.</string>
+  <string name="stats_rule_no_activities">Add an activity in Settings first.</string>
+  <string name="stats_rule_none">Don't sort</string>
+  <string name="tag_rules">Sorted here</string>
+  <string name="tag_rule_remove">Stop sorting %1$s here</string>
+</resources>

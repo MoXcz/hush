@@ -1,0 +1,16 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- App mark (see ic_launcher_foreground.xml) scaled to a 24 dp status bar icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+  android:width="24dp"
+  android:height="24dp"
+  android:viewportWidth="24"
+  android:viewportHeight="24">
+  <path
+    android:pathData="M16.2,4.73 A8.4,8.4 0 1,1 7.8,4.73"
+    android:strokeWidth="2.4"
+    android:strokeColor="#FFFFFF"
+    android:strokeLineCap="round" />
+  <path
+    android:fillColor="#FFFFFF"
+    android:pathData="M12,2 a1.6,1.6 0 1,1 0,3.2 a1.6,1.6 0 1,1 0,-3.2z" />
+</vector>

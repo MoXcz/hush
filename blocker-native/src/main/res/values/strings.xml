@@ -1,0 +1,5 @@
+<resources>
+  <string name="blocker_service_label">Hush app blocking</string>
+  <string name="blocker_service_summary">Blocks the apps on your lists during focus sessions</string>
+  <string name="blocker_service_description">Hush uses this to see which app is in front. While a focus session or detox level runs, it shows a calm block screen over the apps on your block lists. It reads no screen content, and nothing leaves your phone.</string>
+</resources>

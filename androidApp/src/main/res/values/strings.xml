@@ -1,0 +1,20 @@
+<resources>
+  <string name="app_name">Hush</string>
+
+  <string name="channel_timer">Timer</string>
+  <string name="channel_timer_description">Shows the running Pomodoro phase</string>
+  <string name="channel_phase_end">Phase and level end</string>
+  <string name="channel_phase_end_description">Sound and vibration when a phase ends or a detox level is passed</string>
+
+  <string name="phase_work">Work</string>
+  <string name="phase_short_break">Short break</string>
+  <string name="phase_long_break">Long break</string>
+
+  <string name="phase_end_work">Work phase done</string>
+  <string name="phase_end_break">Break\'s over</string>
+  <string name="phase_end_next">Next: %1$s. Open the app to start it.</string>
+
+  <string name="level_passed">Level passed</string>
+  <string name="level_passed_text">The next detox level is open.</string>
+  <string name="level_passed_again_text">Your path stays where it was.</string>
+</resources>

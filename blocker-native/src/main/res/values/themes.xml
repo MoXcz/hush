@@ -1,0 +1,7 @@
+<resources>
+  <!-- Window background is the Dusk surfaceContainer, so nothing flashes before Compose draws. -->
+  <style name="Theme.Hush.Blocked" parent="android:Theme.Material.Light.NoActionBar">
+    <item name="android:windowBackground">@color/blocked_background</item>
+  </style>
+  <color name="blocked_background">#FFF0EDF0</color>
+</resources>

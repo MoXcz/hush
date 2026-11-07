@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <!-- Phase end must be on time. USE_EXACT_ALARM is granted to timer apps on 33+. -->
+  <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+  <uses-permission
+    android:name="android.permission.SCHEDULE_EXACT_ALARM"
+    android:maxSdkVersion="32" />
+  <!-- Re-arms the detox level check after a reboot; the receiver is only enabled during an attempt. -->
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <!-- LAN sync with the desktop app (AGENTS.md §10): sockets, the job's network, mDNS discovery.
+       ACCESS_LOCAL_NETWORK is asked for on Pair (Android 17+). The background job also needs
+       RECEIVE_BOOT_COMPLETED above, because it's persisted. -->
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+  <!-- Which apps were in front during work phases (AGENTS.md §10). Not granted at install: the user
+       turns on "Usage access" for Hush in the system settings. -->
+  <uses-permission
+    android:name="android.permission.PACKAGE_USAGE_STATS"
+    tools:ignore="ProtectedPermissions" />
+
+  <!-- DataExtractionRules: below Android 12 allowBackup="false" already excludes everything, so a
+       fullBackupContent file would add nothing. -->
+  <application
+    android:name=".HushApp"
+    android:allowBackup="false"
+    android:dataExtractionRules="@xml/data_extraction_rules"
+    android:enableOnBackInvokedCallback="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.Hush"
+    tools:ignore="DataExtractionRules"
+    tools:targetApi="33">
+
+    <activity
+      android:name=".MainActivity"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <service
+      android:name=".service.TimerService"
+      android:exported="false"
+      android:foregroundServiceType="specialUse">
+      <property
+        android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+        android:value="Keeps a user-started Pomodoro countdown running and visible until the phase ends" />
+    </service>
+
+    <service
+      android:name=".sync.SyncJobService"
+      android:exported="false"
+      android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    <receiver
+      android:name=".alarm.PhaseEndReceiver"
+      android:exported="false" />
+
+    <receiver
+      android:name=".alarm.LevelCheckReceiver"
+      android:exported="false" />
+
+    <receiver
+      android:name=".alarm.BootReceiver"
+      android:enabled="false"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>
