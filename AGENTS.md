@@ -54,8 +54,9 @@ Reference code (GPL-3, read-only, cloned locally by whoever set up the session):
 | Prerequisites, building, running, install scripts, signing, the Arch package | [docs/building.md](docs/building.md) |
 | Every Gradle and adb command, desktop and sync notes | [docs/commands.md](docs/commands.md) |
 | Engineering guide: versions, modules, Blocker boundary, architecture, Compose, Android, persistence, Koin, tests, licence | [docs/engineering.md](docs/engineering.md) |
-| GitHub releases, signing secrets, CI, the AUR package | [docs/releasing.md](docs/releasing.md) |
+| GitHub releases, signing secrets, CI | [docs/releasing.md](docs/releasing.md) |
 | How apps, sites and terminal programs are recorded | [docs/apps-during-focus.md](docs/apps-during-focus.md) |
+| Sync setup for users (firewall, pairing, desktop data) | [docs/sync.md](docs/sync.md) |
 | What changed in each release | [docs/changelog.md](docs/changelog.md) |
 
 Before you finish: `./gradlew ktlintCheck check :androidApp:assembleDebug` (plus the commands for

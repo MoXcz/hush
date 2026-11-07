@@ -9,8 +9,10 @@ work on it.
   device and the signed release.
 - [engineering.md](engineering.md): the engineering guide (versions, modules, the Blocker boundary,
   architecture, Kotlin, Compose, Android, persistence, Koin, tests, licence).
-- [releasing.md](releasing.md): GitHub releases, per-CPU APKs, signing secrets and the AUR package.
+- [releasing.md](releasing.md): GitHub releases, per-CPU APKs, signing secrets and CI.
 - [apps-during-focus.md](apps-during-focus.md): how the phone and the desktop record apps, sites and
   terminal programs during work phases.
+- [sync.md](sync.md): for users, linked from the README: the firewall, pairing and where the
+  desktop keeps its data.
 - [changelog.md](changelog.md): what changed in each release.
 - [AGENTS.md](../AGENTS.md): the rules for contributors and coding agents.

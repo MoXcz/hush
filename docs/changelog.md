@@ -35,7 +35,7 @@ The first public release.
 - **By activity:** sort an app, site or program into an activity once; Stats adds up each
   activity's time from the phases where it was picked and the apps sorted into it.
 - **Desktop app (Linux):** the same timer, tags, stats and dim clock, with notifications and a
-  chime; an Arch package (`hush`) and an AUR package (`hush-bin`).
+  chime; an Arch package (`hush`) built from source and the app image on each GitHub release.
 - **Sync over the local network:** pair the phone and the computer with a one-time code; they
   sync with pinned, mutually authenticated TLS when the phone app opens and hourly on unmetered
   Wi-Fi. Nothing goes to the internet.

@@ -119,8 +119,7 @@ The package lands in `build/arch/hush-<version>-1-x86_64.pkg.tar.zst`. It instal
 own path), `hush.desktop` with `StartupWMClass=app-hush-desktop-MainKt`, and hicolor icons.
 makepkg works under `build/arch` and needs no network; `options=('!strip' '!debug')` keeps the
 bundled runtime intact. The version comes from `app-versionName` in `gradle/libs.versions.toml`.
-The PKGBUILD reads the image from the checkout, so it can't be built from a clean clone or
-published to the AUR as is.
+The PKGBUILD reads the image from the checkout, so it can't be built from a clean clone as is.
 
 If the native libraries change, re-check `depends` with `readelf -d` on `bin/Hush` and every `.so`
 in the image (the runtime is jlinked from Arch's JDK, so it links the system's libjpeg, giflib,

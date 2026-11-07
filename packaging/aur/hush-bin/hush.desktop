@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Hush
-Comment=Minimal focus timer
-Exec=hush
-Icon=hush
-Terminal=false
-Categories=Utility;
-StartupWMClass=app-hush-desktop-MainKt

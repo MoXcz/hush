@@ -6,8 +6,8 @@ GitHub release with:
 - `hush-<version>-arm64-v8a.apk`, `-armeabi-v7a.apk`, `-x86_64.apk`: one APK per CPU type
   (almost every current phone is arm64-v8a).
 - `hush-<version>-universal.apk`: works on every phone, twice the size.
-- `hush-<version>-linux-x86_64.tar.gz`: the desktop app image (with its own Java runtime), for the
-  AUR package.
+- `hush-<version>-linux-x86_64.tar.gz`: the desktop app image (with its own Java runtime); unpack
+  it and run `Hush/bin/Hush`.
 - `SHA256SUMS`.
 
 Before building, it runs the CI workflow (`.github/workflows/ci.yml`: `ktlintCheck check
@@ -76,24 +76,6 @@ Don't keep repository-level copies of these secrets: any workflow could read tho
 3. When CI and the desktop build are done, the run waits at the Android job: open it in the Actions
    tab, "Review deployments", tick `release` and approve. Only then does it get the key.
 4. Check the release page once the workflow finishes.
-
-## The AUR package (`hush-bin`)
-
-`packaging/aur/hush-bin/` holds the AUR package: it downloads the release's app image instead of
-building from source. After a release:
-
-```sh
-cd packaging/aur/hush-bin
-# set pkgver to the new version and pkgrel=1, then:
-updpkgsums                          # replaces SKIP with the tarball's real checksum
-makepkg -f                          # check it builds
-makepkg --printsrcinfo > .SRCINFO
-```
-
-The AUR keeps each package in its own git repo (`ssh://aur@aur.archlinux.org/hush-bin.git`); copy
-`PKGBUILD`, `.SRCINFO`, `hush.desktop` and `hush.sh` there, commit and push. Publishing needs an
-AUR account with your SSH key. `hush.desktop` and `hush.sh` are copies of the ones in
-`packaging/arch/`; change both together.
 
 ## Licences in a release
 
