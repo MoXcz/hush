@@ -1,11 +1,12 @@
 # Hush
 
-> Vibe coded app for personal use. I really like [Tomato](https://github.com/nsh07/Tomato) but wanted some extra things. The release is also just for personal use.
-> If you wish to contribute or support I would strongly suggest going to [Tomato](https://github.com/nsh07/Tomato) and [Curbox](https://github.com/curbox-app/curbox-android) repos
-> instead. Support them instead!
+> A vibe-coded app for my own use: I like [Tomato](https://github.com/nsh07/Tomato) but wanted a
+> few extra things, and the releases are for personal use too. To contribute or donate, go to
+> [Tomato](https://github.com/nsh07/Tomato) and [Curbox](https://github.com/curbox-app/curbox-android)
+> instead.
 
-A minimalist focus app for Android and Linux: a Pomodoro timer, a "detox path" of longer and longer
-breaks from your phone, and app blocking. No accounts, and nothing is sent to the internet.
+A focus app for Android and Linux: a Pomodoro timer, a "detox path" of ever longer breaks from your
+phone, and app blocking. No accounts; nothing goes to the internet.
 
 <p align="center">
   <img src="docs/images/hero.png" alt="The timer on the desktop and stats on a phone" width="640">
@@ -35,27 +36,25 @@ Hush builds on [Tomato](https://github.com/nsh07/Tomato) and
   </tr>
 </table>
 
-- **App blocking (Android).** While a work phase or detox level runs, the apps on your Deep work or
-  Detox list are covered by a block screen. It only reads which app is in front. Turn it on in
-  Settings → App blocking.
-- **Apps during focus.** Stats can show which apps you used during work phases. On Android this
-  needs usage access (Settings → Timer → App usage during focus); on the desktop it works on
-  Hyprland and is off until you turn it on.
-- **Sorting into activities.** Tap an app, site or program in Stats to sort it into an activity
-  once ("Anki → Study"). "By activity" then adds up the time per activity.
-- **Sync.** The phone and the computer sync directly over your home network. See
+- **App blocking (Android).** During a work phase or detox level, apps on your Deep work or Detox
+  list get a block screen. Hush only reads which app is in front. Turn it on in Settings → App
+  blocking.
+- **Apps during focus.** Stats lists the apps you used during work phases. Android needs usage
+  access (Settings → Timer → App usage during focus); the desktop works on Hyprland, off by default.
+- **Activities.** Tap an app, site or program in Stats to sort it into an activity once
+  ("Anki → Study"); "By activity" adds up the time.
+- **Sync.** Phone and computer sync directly over your home network; see
   [Sync](#sync-with-your-computer).
 
 ### If blocking doesn't turn on
 
-- **"Restricted setting" when you turn on the accessibility service.** Android blocks this for apps
-  installed from a downloaded APK. Open Settings → Apps → Hush, tap ⋮ → **Allow restricted
-  settings**, then try again.
-- **Some apps refuse to run** while an accessibility service from outside the Play Store is on. Use
-  the switch in Settings → App blocking to turn blocking off; turning it back on takes you to
-  Android's Accessibility settings.
-- **Android 16 Advanced Protection** turns off accessibility services like Hush's, so blocking
-  can't be used while it's on. The timer and stats still work.
+- **"Restricted setting".** Android blocks accessibility services from downloaded APKs. Open
+  Settings → Apps → Hush, tap ⋮ → Allow restricted settings, then try again.
+- **Some apps refuse to run** beside an accessibility service from outside the Play Store. Turn
+  blocking off with the switch in Settings → App blocking; turning it back on opens Android's
+  Accessibility settings.
+- **Android 16 Advanced Protection** turns off Hush's accessibility service, so blocking is
+  unavailable while Advanced Protection is on. The timer and stats still work.
 
 ## Sync with your computer
 
@@ -63,9 +62,9 @@ Hush builds on [Tomato](https://github.com/nsh07/Tomato) and
 2. On the phone, open **Settings → Sync**, type the code and tap **Pair**.
 3. Both devices show the other's name and sync right away.
 
-After that the phone syncs when you open Hush and about every hour on Wi-Fi; the computer only needs
-Hush open. History, tags, activities and sorting rules are synced. The computer needs
-`avahi-daemon` running, and if you use a firewall, see [docs/sync.md](docs/sync.md).
+Then the phone syncs history, tags, activities and sorting rules when you open Hush and about
+hourly on Wi-Fi; the computer only needs Hush open. The computer needs `avahi-daemon` running; for
+firewall rules, see [docs/sync.md](docs/sync.md).
 
 ## Install
 
@@ -73,25 +72,23 @@ Files for each version are on the [releases page](https://github.com/MoXcz/hush/
 
 ### Android (8.0 or newer)
 
-Download `hush-<version>-arm64-v8a.apk` (almost every current phone) or the `universal` APK if
-you're not sure, open it and allow your browser or file manager to install apps. Updates must come
-from the same source: Android refuses an update signed with a different key, and uninstalling
-deletes Hush's data.
+Download `hush-<version>-arm64-v8a.apk` (almost every current phone), or the `universal` APK if
+unsure, and open it. Android refuses updates signed with a different key, and uninstalling deletes
+Hush's data, so keep installing from these releases.
 
 ### Linux (x86_64)
 
-Download `hush-<version>-linux-x86_64.tar.gz`, unpack it anywhere and run `Hush/bin/Hush`. It
-brings its own Java runtime and is built on Arch Linux. Optional: `libnotify` (notifications),
-`avahi` (sync) and `hyprland` (apps during focus). Your settings and history live in
-`~/.config/hush` and `~/.local/share/hush`, so deleting the folder keeps them.
+Download `hush-<version>-linux-x86_64.tar.gz`, unpack it anywhere and run `Hush/bin/Hush`. The
+archive includes its own Java runtime and is built on Arch Linux. Optional: `libnotify`
+(notifications), `avahi` (sync) and `hyprland` (apps during focus).
 
-On Arch you can also build a pacman package from source; see
+Settings and history live in `~/.config/hush` and `~/.local/share/hush`, so deleting the unpacked
+folder keeps them. On Arch you can also build a pacman package from source; see
 [docs/building.md](docs/building.md).
 
 ## Credits and licences
 
-Hush is licensed under GPL-3.0-or-later, see [LICENSE](LICENSE). It is a derivative of two GPL-3.0
-projects and wouldn't exist without them; please support them:
+Hush is GPL-3.0-or-later ([LICENSE](LICENSE)) and derives from two GPL-3.0 projects:
 
 - **[Tomato](https://github.com/nsh07/Tomato)** by Nishant Mishra: Hush started from Tomato's
   architecture and reuses its timer engine design, Material 3 Expressive look and motion, screen
