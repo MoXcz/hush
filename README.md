@@ -1,7 +1,7 @@
 # Hush
 
 > Vibe coded app for personal use. I really like [Tomato](https://github.com/nsh07/Tomato) but wanted some extra things. The release is also just for personal use.
-> If you wish to contribute of support I would strongly suggest going to [Tomato](https://github.com/nsh07/Tomato) and [Curbox](https://github.com/curbox-app/curbox-android) repos
+> If you wish to contribute or support I would strongly suggest going to [Tomato](https://github.com/nsh07/Tomato) and [Curbox](https://github.com/curbox-app/curbox-android) repos
 > instead. Support them instead!
 
 A minimalist focus app for Android and Linux: a Pomodoro timer, a "detox path" of longer and longer
