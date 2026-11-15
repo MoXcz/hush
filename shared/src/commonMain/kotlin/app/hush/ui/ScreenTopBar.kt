@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) 2025-2026 Nishant Mishra (Tomato, https://github.com/nsh07/Tomato): adapted from the top bars in ui/.
 package app.hush.ui
 
 import androidx.compose.foundation.text.TextAutoSize

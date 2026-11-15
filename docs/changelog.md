@@ -10,6 +10,8 @@ and date.
 
 ## Unreleased
 
+## 1.1.0
+
 ### Added
 
 - Settings → About: the version, the licence, credits, and links to the source, Tomato and Curbox.
