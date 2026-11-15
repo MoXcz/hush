@@ -16,10 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import app.hush.resources.Res
+import app.hush.resources.back
 import app.hush.resources.ic_arrow_back
 import app.hush.ui.theme.LocalAppFonts
 import app.hush.ui.theme.titleStyle
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 /** Centered screen title (Tomato layout, quieter semibold face). [title] can animate its own text. */
 @Composable
@@ -62,11 +64,10 @@ internal fun ScreenTitle(
 
 @Composable
 internal fun BackButton(
-    contentDescription: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     FilledTonalIconButton(onClick = onClick, shapes = IconButtonDefaults.shapes(), modifier = modifier) {
-        Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = contentDescription)
+        Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = stringResource(Res.string.back))
     }
 }

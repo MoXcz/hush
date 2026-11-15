@@ -34,7 +34,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.hush.blocker.BlockableApp
 import app.hush.blocker.ProfileId
 import app.hush.resources.Res
-import app.hush.resources.block_list_back
 import app.hush.resources.block_list_no_match
 import app.hush.resources.block_list_search
 import app.hush.ui.BackButton
@@ -70,7 +69,7 @@ fun BlockListScreen(
         ScreenTopBar(
             title = { ScreenTitle(state.name) },
             navigationIcon = {
-                BackButton(stringResource(Res.string.block_list_back), onClick = onBack, modifier = Modifier.padding(start = 8.dp))
+                BackButton(onClick = onBack, modifier = Modifier.padding(start = 8.dp))
             },
         )
         OutlinedTextField(

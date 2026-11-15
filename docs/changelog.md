@@ -10,6 +10,10 @@ and date.
 
 ## Unreleased
 
+### Added
+
+- Settings → About: the version, the licence, credits, and links to the source, Tomato and Curbox.
+
 ## 1.0.0
 
 The first public release.

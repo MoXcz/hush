@@ -3,6 +3,7 @@ package app.hush.desktop.di
 
 import app.hush.blocker.Blocker
 import app.hush.blocker.BlockerSetup
+import app.hush.core.AppInfo
 import app.hush.core.DeviceFeatures
 import app.hush.data.db.createAppDatabase
 import app.hush.data.prefs.createSettingsDataStore
@@ -43,6 +44,8 @@ fun desktopModule(
     environment: Map<String, String> = System.getenv(),
 ) = module {
     val hyprland = hyprlandSocketDirectory(environment)
+    // Set by the build, for the run task and the packaged launcher alike.
+    single { AppInfo(System.getProperty("hush.version").orEmpty()) }
     single {
         DeviceFeatures(
             blocking = false,

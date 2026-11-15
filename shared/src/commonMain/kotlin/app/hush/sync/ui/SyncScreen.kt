@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.hush.resources.Res
-import app.hush.resources.sync_back
 import app.hush.resources.sync_client_instructions
 import app.hush.resources.sync_client_paired_hint
 import app.hush.resources.sync_code_expires
@@ -98,7 +97,7 @@ fun SyncScreen(
         ScreenTopBar(
             title = { ScreenTitle(stringResource(Res.string.sync_title)) },
             navigationIcon = {
-                BackButton(stringResource(Res.string.sync_back), onClick = onBack, modifier = Modifier.padding(start = 8.dp))
+                BackButton(onClick = onBack, modifier = Modifier.padding(start = 8.dp))
             },
         )
         Column(

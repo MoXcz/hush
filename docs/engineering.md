@@ -192,6 +192,10 @@ accepted under friction over walls.
   Use the theme's `motionScheme` specs; never hard-code durations.
 - Grouped lists are segmented rows (`SegmentedListItem` with `segmentedShapes`); acknowledged
   messages use `AnimatedNotice`.
+- **Shared with Fit** (https://github.com/MoXcz/fit): `ui/SettingsRows.kt` (section title, switch,
+  navigation, link and stepper rows), `ui/AboutScreen.kt` and `ui/ScreenTopBar.kt` are the same
+  files in both apps, apart from the package and resource names. A settings page is built from
+  these rows only. Change one of these files in both repos, so the apps keep the same settings look.
 
 ## 9. Expect/actual vs interfaces
 

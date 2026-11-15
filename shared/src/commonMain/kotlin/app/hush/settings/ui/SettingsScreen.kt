@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package app.hush.settings.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,12 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
@@ -28,7 +20,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -39,17 +30,12 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,9 +45,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -72,11 +56,13 @@ import app.hush.resources.Res
 import app.hush.resources.activity_add
 import app.hush.resources.activity_edit
 import app.hush.resources.activity_name
+import app.hush.resources.app_name
 import app.hush.resources.ic_activity
 import app.hush.resources.ic_add
 import app.hush.resources.ic_check
 import app.hush.resources.ic_keyboard_arrow_right
 import app.hush.resources.ic_remove
+import app.hush.resources.settings_about
 import app.hush.resources.settings_activities
 import app.hush.resources.settings_add_activity
 import app.hush.resources.settings_add_tag
@@ -89,12 +75,10 @@ import app.hush.resources.settings_blocking
 import app.hush.resources.settings_blocking_off
 import app.hush.resources.settings_blocking_on
 import app.hush.resources.settings_blocking_service
-import app.hush.resources.settings_decrease
 import app.hush.resources.settings_detox
 import app.hush.resources.settings_detox_goal
 import app.hush.resources.settings_dim_clock_lock_screen
 import app.hush.resources.settings_dim_clock_lock_screen_summary
-import app.hush.resources.settings_increase
 import app.hush.resources.settings_long_break
 import app.hush.resources.settings_long_break_after
 import app.hush.resources.settings_minutes
@@ -123,8 +107,13 @@ import app.hush.tags.TagId
 import app.hush.tags.ui.TagDot
 import app.hush.tags.ui.tagSummary
 import app.hush.timer.TimerDurations
+import app.hush.ui.NavRow
+import app.hush.ui.RowSwitch
 import app.hush.ui.ScreenTitle
 import app.hush.ui.ScreenTopBar
+import app.hush.ui.SectionTitle
+import app.hush.ui.StepperRow
+import app.hush.ui.SwitchRow
 import app.hush.ui.theme.HushTheme
 import app.hush.ui.theme.color
 import app.hush.ui.theme.segmentShape
@@ -140,6 +129,7 @@ import kotlin.time.Duration.Companion.minutes
 fun SettingsRoute(
     onOpenList: (ProfileId) -> Unit,
     onOpenSync: () -> Unit,
+    onOpenAbout: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
@@ -153,6 +143,7 @@ fun SettingsRoute(
         onAction = viewModel::onAction,
         onOpenList = onOpenList,
         onOpenSync = onOpenSync,
+        onOpenAbout = onOpenAbout,
         modifier = modifier,
     )
 }
@@ -163,6 +154,7 @@ fun SettingsScreen(
     onAction: (SettingsAction) -> Unit,
     onOpenList: (ProfileId) -> Unit,
     onOpenSync: () -> Unit,
+    onOpenAbout: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     state.editor?.let { TagEditorSheet(editor = it, onAction = onAction) }
@@ -182,14 +174,14 @@ fun SettingsScreen(
             SectionTitle(stringResource(Res.string.settings_tags))
             val tagRows = state.tags.size + 1
             state.tags.forEachIndexed { index, tag ->
-                SegmentedListItem(
+                NavRow(
+                    label = tag.name,
                     onClick = { onAction(SettingsAction.EditTag(tag.id)) },
-                    shapes = segmentedShapes(index, tagRows),
-                    colors = segmentedColors,
-                    leadingContent = { TagDot(tag.color) },
-                    supportingContent = { Text(tagSummary(tag)) },
-                    trailingContent = { Icon(painterResource(Res.drawable.ic_keyboard_arrow_right), contentDescription = null) },
-                ) { Text(tag.name) }
+                    index = index,
+                    count = tagRows,
+                    supporting = tagSummary(tag),
+                    leading = { TagDot(tag.color) },
+                )
             }
             SegmentedListItem(
                 onClick = { onAction(SettingsAction.AddTag) },
@@ -201,13 +193,13 @@ fun SettingsScreen(
             SectionTitle(stringResource(Res.string.settings_activities))
             val activityRows = state.activities.size + 1
             state.activities.forEachIndexed { index, activity ->
-                SegmentedListItem(
+                NavRow(
+                    label = activity.name,
                     onClick = { onAction(SettingsAction.EditActivity(activity.id)) },
-                    shapes = segmentedShapes(index, activityRows),
-                    colors = segmentedColors,
-                    leadingContent = { Icon(painterResource(Res.drawable.ic_activity), contentDescription = null) },
-                    trailingContent = { Icon(painterResource(Res.drawable.ic_keyboard_arrow_right), contentDescription = null) },
-                ) { Text(activity.name) }
+                    index = index,
+                    count = activityRows,
+                    leading = { Icon(painterResource(Res.drawable.ic_activity), contentDescription = null) },
+                )
             }
             SegmentedListItem(
                 onClick = { onAction(SettingsAction.AddActivity) },
@@ -244,13 +236,7 @@ fun SettingsScreen(
                     },
                     trailingContent = {
                         if (state.appUsageSwitch) {
-                            val on = state.appUsageOn == true
-                            Switch(
-                                checked = on,
-                                onCheckedChange = null,
-                                colors = SwitchDefaults.colors(checkedIconColor = MaterialTheme.colorScheme.primary),
-                                thumbContent = { if (on) SwitchIcon() },
-                            )
+                            RowSwitch(state.appUsageOn == true)
                         } else {
                             Icon(painterResource(Res.drawable.ic_keyboard_arrow_right), contentDescription = null)
                         }
@@ -258,103 +244,72 @@ fun SettingsScreen(
                 ) { Text(stringResource(Res.string.settings_app_usage)) }
             }
             if (state.showLockScreen) {
-                SegmentedListItem(
+                SwitchRow(
+                    label = stringResource(Res.string.settings_dim_clock_lock_screen),
                     checked = state.dimClockShowWhenLocked,
-                    onCheckedChange = { onAction(SettingsAction.SetDimClockShowWhenLocked(it)) },
-                    shapes = segmentedShapes(timerRows - 1, timerRows),
-                    colors = segmentedColors,
-                    supportingContent = { Text(stringResource(Res.string.settings_dim_clock_lock_screen_summary)) },
-                    trailingContent = {
-                        Switch(
-                            checked = state.dimClockShowWhenLocked,
-                            onCheckedChange = null,
-                            colors = SwitchDefaults.colors(checkedIconColor = MaterialTheme.colorScheme.primary),
-                            thumbContent = { if (state.dimClockShowWhenLocked) SwitchIcon() },
-                        )
-                    },
-                ) { Text(stringResource(Res.string.settings_dim_clock_lock_screen)) }
+                    onChange = { onAction(SettingsAction.SetDimClockShowWhenLocked(it)) },
+                    index = timerRows - 1,
+                    count = timerRows,
+                    supporting = stringResource(Res.string.settings_dim_clock_lock_screen_summary),
+                )
             }
 
             if (state.showBlocking) {
                 SectionTitle(stringResource(Res.string.settings_detox))
-                ListItem(
-                    modifier = Modifier.clip(segmentShape(0, 1)),
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceBright),
-                    headlineContent = { Text(stringResource(Res.string.settings_detox_goal)) },
-                    trailingContent = {
-                        Stepper(
-                            value = levelLabel(state.detoxGoalMinutes),
-                            canDecrease = state.canDecreaseGoal,
-                            canIncrease = state.canIncreaseGoal,
-                            onStep = { up -> onAction(SettingsAction.StepDetoxGoal(up)) },
-                        )
-                    },
+                StepperRow(
+                    label = stringResource(Res.string.settings_detox_goal),
+                    value = levelLabel(state.detoxGoalMinutes),
+                    canDecrease = state.canDecreaseGoal,
+                    canIncrease = state.canIncreaseGoal,
+                    onStep = { up -> onAction(SettingsAction.StepDetoxGoal(up)) },
+                    index = 0,
+                    count = 1,
                 )
 
                 SectionTitle(stringResource(Res.string.settings_blocking))
                 val rows = state.blockLists.size + 1
-                val on = state.blockingOn == true
-                SegmentedListItem(
-                    checked = on,
-                    onCheckedChange = { onAction(SettingsAction.SetBlocking(it)) },
-                    shapes = segmentedShapes(0, rows),
-                    colors = segmentedColors,
-                    supportingContent = {
+                SwitchRow(
+                    label = stringResource(Res.string.settings_blocking_service),
+                    checked = state.blockingOn == true,
+                    onChange = { onAction(SettingsAction.SetBlocking(it)) },
+                    index = 0,
+                    count = rows,
+                    supporting =
                         when (state.blockingOn) {
-                            true -> Text(stringResource(Res.string.settings_blocking_on))
-                            false -> Text(stringResource(Res.string.settings_blocking_off))
-                            null -> Unit
-                        }
-                    },
-                    trailingContent = {
-                        Switch(
-                            checked = on,
-                            onCheckedChange = null,
-                            colors = SwitchDefaults.colors(checkedIconColor = MaterialTheme.colorScheme.primary),
-                            thumbContent = { if (on) SwitchIcon() },
-                        )
-                    },
-                ) { Text(stringResource(Res.string.settings_blocking_service)) }
+                            true -> stringResource(Res.string.settings_blocking_on)
+                            false -> stringResource(Res.string.settings_blocking_off)
+                            null -> null
+                        },
+                )
                 BlockListRows(lists = state.blockLists, onOpen = onOpenList, firstIndex = 1, count = rows)
             }
 
             state.sync?.let { sync ->
                 SectionTitle(stringResource(Res.string.settings_sync))
-                SyncRow(sync = sync, onClick = onOpenSync)
+                val isHost = sync.role == SyncRole.Host
+                val invitation = if (isHost) Res.string.settings_sync_pair_phone else Res.string.settings_sync_pair_computer
+                NavRow(
+                    label = sync.peerName ?: stringResource(invitation),
+                    onClick = onOpenSync,
+                    index = 0,
+                    count = 1,
+                    supporting = sync.line?.let { syncLineText(it) },
+                )
             }
+
+            SectionTitle(stringResource(Res.string.settings_about))
+            NavRow(label = stringResource(Res.string.app_name), onClick = onOpenAbout, index = 0, count = 1)
         }
     }
 }
 
 @Composable
-private fun SyncRow(
-    sync: SyncSummary,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val invitation = if (sync.role == SyncRole.Host) Res.string.settings_sync_pair_phone else Res.string.settings_sync_pair_computer
-    SegmentedListItem(
-        onClick = onClick,
-        shapes = segmentedShapes(0, 1),
-        colors = segmentedColors,
-        modifier = modifier,
-        supportingContent = sync.line?.let { line -> @Composable { Text(syncLineText(line)) } },
-        trailingContent = { Icon(painterResource(Res.drawable.ic_keyboard_arrow_right), contentDescription = null) },
-    ) { Text(sync.peerName ?: stringResource(invitation)) }
-}
-
-@Composable
-private fun SwitchIcon() {
-    Icon(painterResource(Res.drawable.ic_check), contentDescription = null, modifier = Modifier.size(SwitchDefaults.IconSize))
-}
-
-@Composable
-private fun StepperRow(
+private fun TimerStepperRow(
     setting: TimerSetting,
     editor: TagEditor,
     onAction: (SettingsAction) -> Unit,
-    shape: Shape,
-    modifier: Modifier = Modifier,
+    index: Int,
+    count: Int,
 ) {
     val label =
         when (setting) {
@@ -364,18 +319,14 @@ private fun StepperRow(
             TimerSetting.LongBreakAfter -> Res.string.settings_long_break_after
         }
     val unit = if (setting == TimerSetting.LongBreakAfter) Res.string.settings_work_phases else Res.string.settings_minutes
-    ListItem(
-        modifier = modifier.clip(shape),
-        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceBright),
-        headlineContent = { Text(stringResource(label)) },
-        trailingContent = {
-            Stepper(
-                value = stringResource(unit, editor.value(setting)),
-                canDecrease = editor.canDecrease(setting),
-                canIncrease = editor.canIncrease(setting),
-                onStep = { up -> onAction(SettingsAction.Step(setting, up)) },
-            )
-        },
+    StepperRow(
+        label = stringResource(label),
+        value = stringResource(unit, editor.value(setting)),
+        canDecrease = editor.canDecrease(setting),
+        canIncrease = editor.canIncrease(setting),
+        onStep = { up -> onAction(SettingsAction.Step(setting, up)) },
+        index = index,
+        count = count,
     )
 }
 
@@ -426,7 +377,7 @@ private fun TagEditorSheet(
                 modifier = Modifier.padding(vertical = 16.dp),
             )
             TimerSetting.entries.forEachIndexed { index, setting ->
-                StepperRow(setting = setting, editor = editor, onAction = onAction, shape = segmentShape(index, TimerSetting.entries.size))
+                TimerStepperRow(setting = setting, editor = editor, onAction = onAction, index = index, count = TimerSetting.entries.size)
             }
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
@@ -577,67 +528,6 @@ private fun ColorPicker(
     }
 }
 
-@Composable
-private fun Stepper(
-    value: String,
-    canDecrease: Boolean,
-    canIncrease: Boolean,
-    onStep: (up: Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val motionScheme = MaterialTheme.motionScheme
-    var lastUp by remember { mutableStateOf(true) }
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        FilledTonalIconButton(
-            onClick = {
-                lastUp = false
-                onStep(false)
-            },
-            enabled = canDecrease,
-            shapes = IconButtonDefaults.shapes(),
-        ) {
-            Icon(painterResource(Res.drawable.ic_remove), contentDescription = stringResource(Res.string.settings_decrease))
-        }
-        // The value rolls up or down with the step, like Tomato's "Up next" numbers.
-        AnimatedContent(
-            targetState = value,
-            transitionSpec = {
-                val spec = motionScheme.defaultSpatialSpec<IntOffset>()
-                val sign = if (lastUp) 1 else -1
-                (slideInVertically(spec) { sign * it } + fadeIn(motionScheme.defaultEffectsSpec())) togetherWith
-                    (slideOutVertically(spec) { -sign * it } + fadeOut(motionScheme.fastEffectsSpec()))
-            },
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.widthIn(min = 80.dp),
-        ) {
-            Text(it, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleMedium)
-        }
-        FilledTonalIconButton(
-            onClick = {
-                lastUp = true
-                onStep(true)
-            },
-            enabled = canIncrease,
-            shapes = IconButtonDefaults.shapes(),
-        ) {
-            Icon(painterResource(Res.drawable.ic_add), contentDescription = stringResource(Res.string.settings_increase))
-        }
-    }
-}
-
-@Composable
-private fun SectionTitle(
-    text: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text,
-        style = MaterialTheme.typography.titleSmall,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 8.dp),
-    )
-}
-
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
@@ -646,5 +536,5 @@ private fun SettingsScreenPreview() {
             Tag(TagId(1), "Focus", TagColor.Indigo, TimerDurations()),
             Tag(TagId(2), "Light", TagColor.Teal, TimerDurations(work = 20.minutes, shortBreak = 10.minutes)),
         )
-    HushTheme { SettingsScreen(state = SettingsUiState(tags = tags), onAction = {}, onOpenList = {}, onOpenSync = {}) }
+    HushTheme { SettingsScreen(state = SettingsUiState(tags = tags), onAction = {}, onOpenList = {}, onOpenSync = {}, onOpenAbout = {}) }
 }

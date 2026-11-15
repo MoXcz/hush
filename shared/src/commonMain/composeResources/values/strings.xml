@@ -24,7 +24,6 @@
   </plurals>
   <string name="block_list_for_timer">timer</string>
   <string name="block_list_for_path">path</string>
-  <string name="block_list_back">Back</string>
   <string name="block_list_search">Search apps</string>
   <string name="block_list_no_match">No apps match.</string>
 
@@ -117,7 +116,6 @@
   <string name="history_tagged">%1$s, %2$s</string>
 
   <string name="stats_title">Stats</string>
-  <string name="stats_back">Back</string>
   <string name="stats_focus">Focus time</string>
   <string name="stats_days">Last 7 days</string>
   <string name="stats_weeks">Last 8 weeks</string>
@@ -166,10 +164,18 @@
   <string name="settings_detox">Detox path</string>
   <string name="settings_detox_goal">Goal</string>
   <string name="settings_sync">Sync</string>
+  <string name="settings_about">About</string>
+  <string name="back">Back</string>
+  <string name="app_name">Hush</string>
+  <string name="about_version">Version %1$s</string>
+  <string name="about_licence">Hush is free software under the GNU General Public License, version 3 or later. Nothing in it goes to the internet; sync stays on your local network.</string>
+  <string name="about_credits">Hush started from Tomato by Nishant Mishra: its timer design, look and motion. The app blocker is adapted from Curbox by Nethical and the Curbox contributors. The Manrope font is under the SIL Open Font License.</string>
+  <string name="about_source">Source code</string>
+  <string name="about_tomato">Tomato</string>
+  <string name="about_curbox">Curbox</string>
   <string name="settings_sync_pair_computer">Pair with your computer</string>
   <string name="settings_sync_pair_phone">Pair with your phone</string>
   <string name="sync_title">Sync</string>
-  <string name="sync_back">Back</string>
   <string name="sync_line_never">Not synced yet</string>
   <string name="sync_line_syncing">Syncing…</string>
   <string name="sync_line_just_now">Synced just now</string>

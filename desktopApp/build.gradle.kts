@@ -43,6 +43,7 @@ dependencies {
 compose.desktop {
     application {
         mainClass = "app.hush.desktop.MainKt"
+        jvmArgs += "-Dhush.version=${libs.versions.app.versionName.get()}"
 
         nativeDistributions {
             packageName = "Hush"

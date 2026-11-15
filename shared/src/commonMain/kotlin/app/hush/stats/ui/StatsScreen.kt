@@ -73,7 +73,6 @@ import app.hush.resources.stats_apps_off
 import app.hush.resources.stats_apps_other
 import app.hush.resources.stats_apps_turn_on
 import app.hush.resources.stats_attempts
-import app.hush.resources.stats_back
 import app.hush.resources.stats_by_activity
 import app.hush.resources.stats_days
 import app.hush.resources.stats_detox
@@ -152,7 +151,7 @@ fun StatsScreen(
         ScreenTopBar(
             title = { ScreenTitle(stringResource(Res.string.stats_title)) },
             navigationIcon = {
-                BackButton(stringResource(Res.string.stats_back), onClick = onBack, modifier = Modifier.padding(start = 8.dp))
+                BackButton(onClick = onBack, modifier = Modifier.padding(start = 8.dp))
             },
         )
         LazyColumn(

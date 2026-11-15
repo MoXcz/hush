@@ -34,6 +34,10 @@ sealed interface Route : NavKey {
     @Serializable
     data object Sync : Route
 
+    /** The version, the licence and credits. Sits on top of settings. */
+    @Serializable
+    data object About : Route
+
     /** The app picker of one block list ([id] is its profile id). Sits on top of settings. */
     @Serializable
     data class BlockList(

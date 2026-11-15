@@ -54,15 +54,25 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import app.hush.blocker.ProfileId
 import app.hush.blocklists.ui.BlockListRoute
+import app.hush.core.AppInfo
+import app.hush.core.AppLinks
 import app.hush.detox.ui.PathRoute
 import app.hush.panic.ui.GroundingRoute
 import app.hush.resources.Res
+import app.hush.resources.about_credits
+import app.hush.resources.about_curbox
+import app.hush.resources.about_licence
+import app.hush.resources.about_source
+import app.hush.resources.about_tomato
+import app.hush.resources.about_version
+import app.hush.resources.app_name
 import app.hush.resources.ic_path
 import app.hush.resources.ic_settings
 import app.hush.resources.ic_settings_filled
 import app.hush.resources.ic_timer
 import app.hush.resources.ic_timer_filled
 import app.hush.resources.path_title
+import app.hush.resources.settings_about
 import app.hush.resources.settings_title
 import app.hush.resources.timer_title
 import app.hush.settings.ui.SettingsRoute
@@ -79,6 +89,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 private data class TopLevelDestination(
     val route: Route,
@@ -109,6 +120,7 @@ private val navConfig =
                     subclass(Route.Onboarding::class, Route.Onboarding.serializer())
                     subclass(Route.BlockList::class, Route.BlockList.serializer())
                     subclass(Route.Sync::class, Route.Sync.serializer())
+                    subclass(Route.About::class, Route.About.serializer())
                 }
             }
     }
@@ -203,6 +215,24 @@ fun App(
                                         modifier = screen,
                                         onOpenList = { backStack.add(Route.BlockList(it.value)) },
                                         onOpenSync = { if (backStack.lastOrNull() == Route.Settings) backStack.add(Route.Sync) },
+                                        onOpenAbout = { if (backStack.lastOrNull() == Route.Settings) backStack.add(Route.About) },
+                                    )
+                                }
+                                entry<Route.About> {
+                                    AboutScreen(
+                                        title = stringResource(Res.string.settings_about),
+                                        name = stringResource(Res.string.app_name),
+                                        version = stringResource(Res.string.about_version, koinInject<AppInfo>().version),
+                                        licence = stringResource(Res.string.about_licence),
+                                        credits = stringResource(Res.string.about_credits),
+                                        links =
+                                            listOf(
+                                                AboutLink(stringResource(Res.string.about_source), AppLinks.SOURCE),
+                                                AboutLink(stringResource(Res.string.about_tomato), AppLinks.TOMATO),
+                                                AboutLink(stringResource(Res.string.about_curbox), AppLinks.CURBOX),
+                                            ),
+                                        modifier = screen,
+                                        onBack = { if (backStack.lastOrNull() == Route.About) backStack.removeLastOrNull() },
                                     )
                                 }
                                 entry<Route.Sync> {

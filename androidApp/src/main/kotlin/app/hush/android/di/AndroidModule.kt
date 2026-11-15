@@ -14,6 +14,7 @@ import app.hush.android.sync.LanClients
 import app.hush.android.sync.LocalNetworkPermission
 import app.hush.android.sync.NsdDiscovery
 import app.hush.android.usage.UsageStatsAppUsageReader
+import app.hush.core.AppInfo
 import app.hush.core.DeviceFeatures
 import app.hush.data.db.createAppDatabase
 import app.hush.data.prefs.createSettingsDataStore
@@ -32,6 +33,15 @@ import org.koin.dsl.module
 
 val androidModule =
     module {
+        single {
+            AppInfo(
+                androidContext()
+                    .packageManager
+                    .getPackageInfo(androidContext().packageName, 0)
+                    .versionName
+                    .orEmpty(),
+            )
+        }
         single { DeviceFeatures(blocking = true, lockScreen = true, syncRole = SyncRole.Client, appUsage = true) }
         single<AppUsageReader> { UsageStatsAppUsageReader(androidContext(), get()) }
         single { createSettingsDataStore(androidContext()) }
